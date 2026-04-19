@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #8b5cf6;
+}
+
+@layer base {
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f4f4f5;
+    --text-primary: #18181b;
+    --text-secondary: #71717a;
+    --border-primary: #e4e4e7;
+    --glass-bg: rgba(255, 255, 255, 0.6);
+  }
+
+  .dark {
+    --bg-primary: #000000;
+    --bg-secondary: #09090b;
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --border-primary: #27272a;
+    --glass-bg: rgba(0, 0, 0, 0.6);
+  }
+
+  body {
+    @apply transition-colors duration-300;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+  }
+
+  /* Utility classes for the custom variables */
+  .bg-primary { background-color: var(--bg-primary); }
+  .bg-secondary { background-color: var(--bg-secondary); }
+  .text-portfolio-primary { color: var(--text-primary); }
+  .text-portfolio-secondary { color: var(--text-secondary); }
+  .border-portfolio { border-color: var(--border-primary); }
+  .glass-backdrop { background-color: var(--glass-bg); backdrop-filter: blur(12px); }
+}
