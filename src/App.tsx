@@ -5,15 +5,19 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  Menu, X, Search, Moon, Sun, Github, ExternalLink, 
-  Mail, ChevronRight, ChevronLeft, Music2, Clock, 
-  Loader2, Globe, Cpu, Layout, Terminal, Code2, 
-  Wind, Component, Grid, Activity, Atom, Layers, 
-  Server, Database, HardDrive, Cloud, Box, UploadCloud, 
-  GitBranch, Package, Volume2, ArrowLeft, Send
+import {
+  Menu, X, Search, Moon, Sun, Github, ExternalLink,
+  Mail, ChevronRight, ChevronLeft, Music2, Clock,
+  Loader2, Globe, Cpu, Layout, Terminal, Code2,
+  Wind, Component, Grid, Activity, Atom, Layers,
+  Server, Database, HardDrive, Cloud, Box, UploadCloud,
+  GitBranch, Package, Volume2, ArrowLeft, Send,
+  Check,
+  Copy,
+  Heart
 } from "lucide-react";
 import { PROFILE, SECTIONS, PROJECTS, SKILLS, EXPERIENCE, EDUCATION, BLOGS } from "./constants";
+import ContactSection from "./ContactSection";
 
 const ICON_MAP: Record<string, any> = {
   code: Code2,
@@ -49,6 +53,13 @@ export default function App() {
   const [theme, setTheme] = useState("dark");
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(PROFILE.email);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -56,10 +67,23 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else {
+      localStorage.setItem("theme", theme);
+    }
+  }, []);
+
+  useEffect(() => {
     document.documentElement.className = theme;
   }, [theme]);
 
-  const toggleTheme = () => setTheme(prev => prev === "dark" ? "light" : "dark");
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+  };
 
   const toggleMusic = () => {
     if (audioRef.current) {
@@ -73,7 +97,7 @@ export default function App() {
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    return date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
   };
 
   const selectedProject = PROJECTS.find(p => p.id === selectedProjectId);
@@ -82,14 +106,14 @@ export default function App() {
   const renderSection = () => {
     if (selectedProjectId && selectedProject) {
       return (
-        <motion.div 
+        <motion.div
           key="project-details"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           className="space-y-10"
         >
-          <button 
+          <button
             onClick={() => setSelectedProjectId(null)}
             className="flex items-center gap-2 text-portfolio-secondary hover:text-portfolio-primary transition-colors text-sm font-medium cursor-pointer"
           >
@@ -158,18 +182,22 @@ export default function App() {
             <div className="space-y-4">
               <h3 className="text-lg font-bold text-portfolio-primary tracking-tight">Links</h3>
               <div className="flex gap-4">
-                <a 
+                <a
                   href={selectedProject.liveLink}
                   className="flex items-center gap-2 bg-brand text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:brightness-110 transition-all cursor-pointer"
                 >
                   Live <ExternalLink size={14} />
                 </a>
-                <a 
-                  href={selectedProject.githubLink}
-                  className="flex items-center gap-2 bg-secondary border border-portfolio text-portfolio-primary px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-secondary/80 transition-all cursor-pointer"
-                >
-                  Github <ExternalLink size={14} />
-                </a>
+                {
+                  selectedProject.githubLink && (
+                    <a
+                      href={selectedProject.githubLink}
+                      className="flex items-center gap-2 bg-secondary border border-portfolio text-portfolio-primary px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-secondary/80 transition-all cursor-pointer"
+                    >
+                      Github <ExternalLink size={14} />
+                    </a>
+                  )
+                }
               </div>
             </div>
           </div>
@@ -179,14 +207,14 @@ export default function App() {
 
     if (selectedBlogId && selectedBlog) {
       return (
-        <motion.div 
+        <motion.div
           key="blog-details"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
           className="space-y-10"
         >
-          <button 
+          <button
             onClick={() => setSelectedBlogId(null)}
             className="flex items-center gap-2 text-portfolio-secondary hover:text-portfolio-primary transition-colors text-sm font-medium cursor-pointer"
           >
@@ -203,7 +231,7 @@ export default function App() {
               <span className="opacity-30">•</span>
               <div className="flex gap-2">
                 {selectedBlog.tags.map(tag => (
-                   <span key={tag} className="text-brand">#{tag}</span>
+                  <span key={tag} className="text-brand">#{tag}</span>
                 ))}
               </div>
             </div>
@@ -232,7 +260,7 @@ export default function App() {
     switch (activeSection) {
       case "introduction":
         return (
-          <motion.div 
+          <motion.div
             key="introduction"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -247,23 +275,35 @@ export default function App() {
               {PROFILE.summary}
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
-              <a 
+              <a
                 href={PROFILE.resumeUrl}
-                className="flex items-center gap-2 bg-brand hover:brightness-110 text-white px-6 py-3 rounded-lg font-medium transition-all"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-brand hover:brightness-110 text-white px-6 py-3 rounded-lg font-medium transition-all cursor-pointer"
               >
                 Get Resume <ExternalLink size={18} />
               </a>
-              <a 
-                href={`mailto:${PROFILE.email}`}
-                className="flex items-center gap-2 border border-portfolio hover:border-zinc-400 text-portfolio-primary px-6 py-3 rounded-lg font-medium transition-all"
+              <button
+                onClick={handleCopyEmail}
+                className="flex items-center gap-2 border border-portfolio hover:border-zinc-400 text-portfolio-primary px-6 py-3 rounded-lg font-medium transition-all cursor-pointer relative overflow-hidden group"
               >
-                <Mail size={18} /> Send Mail
-              </a>
+                <div className="flex items-center gap-2">
+                  {isCopied ? <Check size={18} className="text-green-500" /> : <Copy size={18} />}
+                  <span>{isCopied ? "Copied!" : "Copy Mail"}</span>
+                </div>
+                {isCopied && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1.5, opacity: 0 }}
+                    className="absolute inset-0 bg-green-500/20 rounded-full"
+                  />
+                )}
+              </button>
             </div>
             <div className="pt-12 flex justify-end">
-              <button 
+              <button
                 onClick={() => setActiveSection("about")}
-                className="flex items-center gap-2 text-portfolio-secondary hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 text-portfolio-secondary hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 About Me <ChevronRight size={18} />
               </button>
@@ -273,7 +313,7 @@ export default function App() {
 
       case "about":
         return (
-          <motion.div 
+          <motion.div
             key="about"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -286,25 +326,25 @@ export default function App() {
             </div>
             <div className="space-y-6 text-lg text-portfolio-secondary leading-relaxed max-w-3xl font-light">
               <p>
-                I am a results-driven Full Stack Software Engineer with a passion for building scalable, high-performance web and mobile applications. My expertise lies in the MERN stack, TypeScript, and modern cloud deployment practices.
+                I am a Software Development Engineer deeply invested in crafting scalable, robust web applications from the database architecture to the front-end user experience. My engineering journey includes completing multiple hands-on internships where I engineered high-volume backend modules and translated high-fidelity designs into pixel-perfect, highly responsive user interfaces
               </p>
               <p>
-                I have a strong track record of delivering measurable impact, including enhancing user engagement and achieving perfect Lighthouse scores. I am deeply interested in clean architecture, system design, and the latest in AI/LLM technologies.
+                My technical foundation is rooted in the MERN stack, TypeScript, and PostgreSQL, complemented by modern tools like Prisma ORM and Docker. Whether I am designing complex database schemas for organizational tools, implementing role-based access control (RBAC) for comprehensive learning platforms , or tackling complex algorithmic challenges to ensure optimal system performance, I thrive on solving hard engineering problems.
               </p>
               <p>
-                With over {EXPERIENCE.length} professional experiences ranging from consultant roles to developer internships, I have tackled a variety of challenges in architecting dashboards, managing high-volume data pipelines, and leading end-to-end migrations.
+                I place a strong emphasis on clean architecture and system design, drawing inspiration from modern, high-quality SaaS products that prioritize exceptional UI/UX. From achieving a 100% Google Lighthouse score through advanced Next.js server-side rendering optimizations to deploying containerized workflows that improve team reliability, I build products that are not just functional, but highly performant and user-centric. I am currently seeking opportunities to bring my passion for product development and continuous learning to a dynamic engineering team.
               </p>
             </div>
             <div className="pt-12 flex justify-between text-portfolio-secondary">
-              <button 
+              <button
                 onClick={() => setActiveSection("introduction")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 <ChevronLeft size={18} /> Introduction
               </button>
-              <button 
+              <button
                 onClick={() => setActiveSection("projects")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 Projects <ChevronRight size={18} />
               </button>
@@ -314,7 +354,7 @@ export default function App() {
 
       case "projects":
         return (
-          <motion.div 
+          <motion.div
             key="projects"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -327,8 +367,8 @@ export default function App() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {PROJECTS.map((project, idx) => (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   onClick={() => setSelectedProjectId(project.id)}
                   className="bg-secondary/40 border border-portfolio p-6 rounded-xl hover:border-brand/40 transition-all group backdrop-blur-sm cursor-pointer"
                 >
@@ -341,15 +381,15 @@ export default function App() {
               ))}
             </div>
             <div className="pt-12 flex justify-between text-portfolio-secondary">
-              <button 
+              <button
                 onClick={() => setActiveSection("about")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 <ChevronLeft size={18} /> About
               </button>
-              <button 
+              <button
                 onClick={() => setActiveSection("skills")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 Skills & Tools <ChevronRight size={18} />
               </button>
@@ -359,7 +399,7 @@ export default function App() {
 
       case "skills":
         return (
-          <motion.div 
+          <motion.div
             key="skills"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -385,15 +425,15 @@ export default function App() {
               })}
             </div>
             <div className="pt-12 flex justify-between text-portfolio-secondary">
-              <button 
+              <button
                 onClick={() => setActiveSection("projects")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 <ChevronLeft size={18} /> Projects
               </button>
-              <button 
+              <button
                 onClick={() => setActiveSection("experience")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 Experience <ChevronRight size={18} />
               </button>
@@ -403,7 +443,7 @@ export default function App() {
 
       case "experience":
         return (
-          <motion.div 
+          <motion.div
             key="experience"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -428,15 +468,15 @@ export default function App() {
               ))}
             </div>
             <div className="pt-12 flex justify-between text-portfolio-secondary">
-              <button 
+              <button
                 onClick={() => setActiveSection("skills")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 <ChevronLeft size={18} /> Skills
               </button>
-              <button 
+              <button
                 onClick={() => setActiveSection("education")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 Education <ChevronRight size={18} />
               </button>
@@ -446,7 +486,7 @@ export default function App() {
 
       case "education":
         return (
-          <motion.div 
+          <motion.div
             key="education"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -460,7 +500,7 @@ export default function App() {
             <div className="relative pl-8 space-y-12 before:absolute before:left-0 before:top-2 before:bottom-0 before:w-[1px] before:bg-zinc-800">
               {EDUCATION.map((edu, idx) => (
                 <div key={idx} className="relative">
-                  <div className="absolute -left-10 top-1 w-4 h-1 rounded-full bg-brand border-4 bg-primary border-primary z-10" />
+                  <div className="absolute -left-10 top-1 w-4 h-4 rounded-full bg-brand border-4 bg-primary border-primary z-10" />
                   <h3 className="text-xl font-bold text-portfolio-primary mb-1 tracking-tight">{edu.degree}</h3>
                   <p className="text-portfolio-secondary font-medium text-sm mb-1">{edu.institution} · {edu.location}</p>
                   <p className="text-xs font-mono text-brand mb-4">{edu.period}</p>
@@ -469,15 +509,15 @@ export default function App() {
               ))}
             </div>
             <div className="pt-12 flex justify-between text-portfolio-secondary">
-              <button 
+              <button
                 onClick={() => setActiveSection("experience")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 <ChevronLeft size={18} /> Experience
               </button>
-              <button 
+              <button
                 onClick={() => setActiveSection("contact")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
                 Contact <ChevronRight size={18} />
               </button>
@@ -487,7 +527,7 @@ export default function App() {
 
       case "contact":
         return (
-          <motion.div 
+          <motion.div
             key="contact"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -495,52 +535,22 @@ export default function App() {
             className="space-y-8"
           >
             <div className="space-y-4">
-              <h1 className="text-4xl font-bold text-portfolio-primary tracking-tight">Contact</h1>
-              <h2 className="text-3xl font-bold text-portfolio-secondary tracking-tight">Let's connect and build something Great.</h2>
+              <h1 className="text-4xl font-bold text-portfolio-primary tracking-tight">Let's Connect</h1>
+              <h2 className="text-3xl font-bold text-portfolio-secondary tracking-tight">Skip the back-and-forth. Grab a time on my calendar below and let's chat about your next project or role!</h2>
             </div>
-            <div className="max-w-2xl space-y-6 bg-secondary/40 p-8 rounded-2xl border border-portfolio backdrop-blur-sm">
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-portfolio-primary uppercase tracking-[0.2em] opacity-80">Name<span className="text-brand ml-1">*</span></label>
-                <input 
-                  type="text" 
-                  placeholder="Abidali Shaikh"
-                  className="w-full bg-primary border border-portfolio px-4 py-3 rounded-xl focus:outline-none focus:border-brand text-portfolio-primary transition-all text-sm font-light"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-portfolio-primary uppercase tracking-[0.2em] opacity-80">Email<span className="text-brand ml-1">*</span></label>
-                <input 
-                  type="email" 
-                  placeholder="hello@example.com"
-                  className="w-full bg-primary border border-portfolio px-4 py-3 rounded-xl focus:outline-none focus:border-brand text-portfolio-primary transition-all text-sm font-light"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold text-portfolio-primary uppercase tracking-[0.2em] opacity-80">Message<span className="text-brand ml-1">*</span></label>
-                <textarea 
-                  rows={4}
-                  placeholder="Tell me about your project..."
-                  className="w-full bg-primary border border-portfolio px-4 py-3 rounded-xl focus:outline-none focus:border-brand text-portfolio-primary transition-all text-sm font-light resize-none"
-                />
-              </div>
-              <div className="flex flex-col gap-3 pt-4">
-                <button className="w-full bg-brand hover:brightness-110 text-white font-bold py-3.5 rounded-xl transition-all text-sm flex items-center justify-center gap-2">
-                  Send Message <Send size={16} />
-                </button>
-              </div>
-            </div>
+            <ContactSection />
             <div className="pt-12 flex justify-between text-portfolio-secondary">
-              <button 
+              <button
                 onClick={() => setActiveSection("education")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
-                <ChevronLeft size={18} /> Education
+                <ChevronLeft size={18} className="" /> Education
               </button>
-              <button 
-                onClick={() => setActiveSection("stats")}
-                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors"
+              <button
+                onClick={() => setActiveSection("blogs")}
+                className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
-                Stats <ChevronRight size={18} />
+                Blogs <ChevronRight size={18} />
               </button>
             </div>
           </motion.div>
@@ -548,7 +558,7 @@ export default function App() {
 
       case "blogs":
         return (
-          <motion.div 
+          <motion.div
             key="blogs"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -561,8 +571,8 @@ export default function App() {
             </div>
             <div className="grid grid-cols-1 gap-8">
               {BLOGS.map((blog, idx) => (
-                <div 
-                  key={idx} 
+                <div
+                  key={idx}
                   onClick={() => setSelectedBlogId(blog.id)}
                   className="group bg-secondary/30 border border-portfolio p-8 rounded-2xl hover:border-brand/40 transition-all cursor-pointer backdrop-blur-md"
                 >
@@ -585,7 +595,7 @@ export default function App() {
               ))}
             </div>
             <div className="pt-12 flex justify-between text-portfolio-secondary">
-              <button 
+              <button
                 onClick={() => setActiveSection("contact")}
                 className="flex items-center gap-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
@@ -606,14 +616,14 @@ export default function App() {
       <AnimatePresence>
         {isSearchOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsSearchOpen(false)}
               className="absolute inset-0 bg-black/80 backdrop-blur-md"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -621,12 +631,12 @@ export default function App() {
             >
               <div className="p-4 border-b border-portfolio flex items-center gap-3">
                 <Search size={20} className="text-portfolio-secondary" />
-                <input 
+                <input
                   autoFocus
                   placeholder="Type a command or search..."
                   className="flex-1 bg-transparent border-none outline-none text-portfolio-primary text-lg font-light"
                 />
-                <button 
+                <button
                   onClick={() => setIsSearchOpen(false)}
                   className="p-1 hover:bg-white/10 rounded-lg text-portfolio-secondary transition-colors cursor-pointer"
                 >
@@ -637,9 +647,9 @@ export default function App() {
                 <div className="px-4 py-3">
                   <h3 className="text-[10px] font-bold text-portfolio-secondary uppercase tracking-widest mb-4">Links</h3>
                   <div className="space-y-1">
-                    <button 
+                    <button
                       onClick={() => { setActiveSection("introduction"); setSelectedProjectId(null); setSelectedBlogId(null); setIsSearchOpen(false); }}
-                      className="w-full flex items-center gap-3 px-3 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-colors cursor-pointer text-portfolio-primary group"
+                      className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:scale-90 duration-300 transition-all cursor-pointer text-portfolio-primary group"
                     >
                       <Layout size={18} className="text-portfolio-secondary group-hover:text-brand" />
                       <span className="font-medium">Home</span>
@@ -650,10 +660,10 @@ export default function App() {
                   <h3 className="text-[10px] font-bold text-portfolio-secondary uppercase tracking-widest mb-4">Sections</h3>
                   <div className="grid grid-cols-1 gap-1">
                     {SECTIONS.map(section => (
-                      <button 
+                      <button
                         key={section.id}
                         onClick={() => { setActiveSection(section.id); setSelectedProjectId(null); setSelectedBlogId(null); setIsSearchOpen(false); }}
-                        className="w-full flex items-center gap-3 px-3 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-colors cursor-pointer text-portfolio-primary group text-left"
+                        className="w-full flex items-center gap-3 px-3 py-3   rounded-xl transition-colors cursor-pointer text-portfolio-primary group text-left"
                       >
                         <ChevronRight size={18} className="text-portfolio-secondary group-hover:text-brand" />
                         <span className="font-medium">{section.label}</span>
@@ -668,7 +678,7 @@ export default function App() {
                   <span className="flex items-center gap-1"><span className="bg-secondary px-1 py-0.5 border border-portfolio rounded uppercase tracking-tighter">↑↓</span> to navigate</span>
                   <span className="flex items-center gap-1"><span className="bg-secondary px-1 py-0.5 border border-portfolio rounded uppercase tracking-tighter">Esc</span> to close</span>
                 </div>
-                <button 
+                <button
                   onClick={toggleTheme}
                   className="flex items-center gap-2 text-sm font-bold text-portfolio-primary hover:text-brand transition-colors cursor-pointer"
                 >
@@ -681,22 +691,22 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <audio 
-        ref={audioRef} 
-        src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Tours/Enthusiast/Tours_-_01_-_Enthusiast.mp3" 
-        loop 
+      <audio
+        ref={audioRef}
+        src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Tours/Enthusiast/Tours_-_01_-_Enthusiast.mp3"
+        loop
       />
-      
+
       {/* Navbar */}
       <nav className="fixed top-0 left-0 right-0 z-50 glass-backdrop border-b border-portfolio px-6 py-4">
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <div 
+            <div
               className="flex items-center gap-1.5 text-portfolio-primary font-bold text-lg select-none cursor-pointer"
               onClick={() => { setActiveSection("introduction"); setSelectedProjectId(null); }}
             >
               <ChevronRight size={20} className="text-portfolio-secondary opacity-50" />
-              <span className="tracking-tighter">{PROFILE.name.toLowerCase().replace(' ', '.')}.is-dev</span>
+              <span className="tracking-tighter">abidali.is-dev</span>
             </div>
             <div className="hidden md:flex items-center gap-6 text-portfolio-secondary text-[13px] font-medium">
               <span className="hover:text-portfolio-primary cursor-pointer transition-colors" onClick={() => { setActiveSection("introduction"); setSelectedProjectId(null); }}>Home</span>
@@ -705,20 +715,20 @@ export default function App() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div 
+            <div
               onClick={() => setIsSearchOpen(true)}
               className="hidden lg:flex items-center gap-2 bg-secondary/40 border border-portfolio px-3 py-1.5 rounded-xl text-portfolio-secondary text-xs transition-all hover:border-zinc-400 cursor-pointer"
             >
               <Search size={14} />
               <span className="font-light">Search sections...</span>
-              <span className="ml-4 opacity-30 font-mono text-[10px]">⌘ K</span>
+              <span className="ml-4 opacity-70 font-mono text-[13px]">⌘ K</span>
             </div>
             <div className="flex items-center gap-2.5 bg-secondary px-3 py-1.5 rounded-full border border-portfolio">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)] animate-pulse" />
               <span className="text-portfolio-primary text-sm font-bold tracking-tight">{formatTime(currentTime)}</span>
             </div>
             <div className="flex items-center gap-1 text-portfolio-secondary">
-              <button 
+              <button
                 onClick={toggleMusic}
                 className={`p-2 transition-colors relative cursor-pointer ${isPlaying ? 'text-brand' : 'hover:text-portfolio-primary'}`}
               >
@@ -730,7 +740,7 @@ export default function App() {
                   </span>
                 )}
               </button>
-              <button 
+              <button
                 onClick={toggleTheme}
                 className="p-2 hover:text-portfolio-primary transition-colors cursor-pointer"
               >
@@ -738,8 +748,8 @@ export default function App() {
               </button>
               <a href={PROFILE.links.github} target="_blank" rel="noopener noreferrer" className="p-2 hover:text-portfolio-primary transition-colors ml-1 cursor-pointer"><Github size={16} /></a>
             </div>
-            <button 
-              className="md:hidden p-2 text-portfolio-primary hover:bg-secondary rounded-lg transition-colors" 
+            <button
+              className="md:hidden p-2 text-portfolio-primary hover:bg-secondary rounded-lg transition-colors"
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
             >
               {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
@@ -751,12 +761,12 @@ export default function App() {
       <div className="flex flex-1 pt-[73px]">
         {/* Sidebar */}
         <aside className={`
-          fixed md:sticky top-[73px] left-0 z-40 w-64 bg-primary border-r border-portfolio h-[calc(100vh-73px)] overflow-y-auto md:translate-x-0 transition-transform duration-300
+          fixed md:sticky top-[73px] md:left-40 z-40 w-64 bg-primary border-r border-portfolio h-[calc(100vh-73px)] overflow-y-auto md:translate-x-0 transition-transform duration-300
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}
         `}>
           <div className="p-8 pb-12">
             <div className="mb-6">
-              <h3 className="text-[10px] font-bold text-portfolio-secondary uppercase tracking-[0.25em] mb-6">Sections</h3>
+              <h3 className="text-[20px] font-bold text-portfolio-secondary uppercase mb-6">Sections</h3>
               <nav className="space-y-1.5">
                 {SECTIONS.map((section) => (
                   <button
@@ -769,15 +779,15 @@ export default function App() {
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className={`
-                      w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all group relative cursor-pointer
+                      w-full text-left px-4 py-2.5 rounded-xl text-[16px] font-medium transition-all group relative cursor-pointer
                       ${activeSection === section.id && !selectedProjectId && !selectedBlogId
-                        ? "bg-secondary text-brand shadow-sm" 
+                        ? "bg-secondary text-brand shadow-sm"
                         : "text-portfolio-secondary hover:text-portfolio-primary hover:bg-secondary/30"}
                     `}
                   >
                     {section.label}
                     {activeSection === section.id && !selectedProjectId && !selectedBlogId && (
-                      <motion.div 
+                      <motion.div
                         layoutId="active-nav"
                         className="absolute left-0 top-2 bottom-2 w-0.5 bg-brand rounded-full"
                       />
@@ -796,8 +806,24 @@ export default function App() {
               {renderSection()}
             </AnimatePresence>
           </div>
+          <footer className="max-w-4xl mx-auto w-full pt-42">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-portfolio pt-8 text-[11px] text-portfolio-secondary font-medium">
+              <div className="flex items-center gap-1">
+                <span>© {new Date().getFullYear()} {PROFILE.name}</span>
+                <span className="opacity-30 mx-2">|</span>
+                <span className="flex items-center gap-1">Built with <Heart size={10} className="text-red-500 animate-pulse" /> in Pune</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span>{PROFILE.email}.</span>
+                <span>{PROFILE.phone}</span>
+              </div>
+            </div>
+          </footer>
         </main>
+
+
+
       </div>
-    </div>
+    </div >
   );
 }

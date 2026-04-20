@@ -1,11 +1,12 @@
 export const PROFILE = {
-  name: "Abidali Shaikh",
+  name: "AbidAli Shaikh",
   title: "Full Stack Software Engineer | MERN | TypeScript | Cloud",
-  summary: "Results-driven Full Stack Software Engineer with 1.5+ years of hands-on internship experience building scalable, high-performance web and mobile applications. Proficient in the MERN stack (MongoDB, Express.js, React.js, Node.js), TypeScript, and Docker cloud deployment. Demonstrated ability to deliver measurable impact — including a 40% improvement in user engagement and a 100% Google Lighthouse performance score.",
+  summary: "Full Stack Developer specializing in the MERN stack, TypeScript, Redis, Docker, SQL and NoSQL Databases and modern scalable architecture. With a track record of translating complex requirements into high-performance web and mobile applications , I focus on clean system design  and building intuitive, production-grade SaaS products.",
   email: "abidshaikhccc@gmail.com",
-  resumeUrl: "#",
+  phone: "+91 87673 09420",
+  resumeUrl: "https://drive.google.com/file/d/1cRjtIlV2Tn0q4qfOmip_Nf5DMGjM4XvR/view?usp=drivesdk",
   links: {
-    linkedin: "https://linkedin.com/in/abidali-shaikh", // Adjusted from resume context
+    linkedin: "https://www.linkedin.com/in/abidali-shaikh-2422b5259",
     github: "https://github.com/Shaikh-abid",
   }
 };
@@ -97,7 +98,7 @@ export const PROJECTS = [
       "Improved ability to implement complex OAuth flows.",
       "Mastered global state management with React Context API."
     ],
-    liveLink: "#",
+    liveLink: "https://leetcode-frontend-udp9.onrender.com/",
     githubLink: "https://github.com/Shaikh-abid/leetcode-clone",
   },
   {
@@ -123,7 +124,7 @@ export const PROJECTS = [
       "Deep dive into serverless architectures with Next.js.",
       "Implemented secure stripe-like payment integrations."
     ],
-    liveLink: "#",
+    liveLink: "https://lms-frontend-ys2o.onrender.com/",
     githubLink: "https://github.com/Shaikh-abid/lms-repo",
   },
   {
@@ -149,8 +150,7 @@ export const PROJECTS = [
       "Improved experience in building enterprise-grade dashboards.",
       "Enhanced cross-functional collaboration skills."
     ],
-    liveLink: "#",
-    githubLink: "#",
+    liveLink: "https://nhai.rasta360.com/",
   },
   {
     id: "markitify",
@@ -177,14 +177,15 @@ export const PROJECTS = [
       "Enhanced deployment workflow using Vercel and Vite integration.",
       "Developed better practices for responsive and scalable frontend design."
     ],
-    liveLink: "#",
-    githubLink: "#",
+    liveLink: "https://www.markitifymedia.com/",
   },
 ];
 
 export const SKILLS = [
   { name: "JavaScript", icon: "code" },
   { name: "TypeScript", icon: "code-2" },
+  { name: "Java", icon: "code" },
+  { name: "Python", icon: "code" },
   { name: "React.js", icon: "atom" },
   { name: "Next.js", icon: "cpu" },
   { name: "Node.js", icon: "server" },
@@ -195,10 +196,19 @@ export const SKILLS = [
   { name: "Framer Motion", icon: "activity" },
   { name: "Docker", icon: "container" },
   { name: "Vercel", icon: "upload-cloud" },
-  { name: "GCP", icon: "cloud" },
   { name: "Git", icon: "git-branch" },
   { name: "Redux", icon: "layers" },
   { name: "Zustand", icon: "layers" },
+  { name: "TanStack Query", icon: "layers" },
+  { name: "RESTful APIs", icon: "layers" },
+  { name: "Socket.io", icon: "layers" },
+  { name: "Microservices Architecture", icon: "layers" },
+  { name: "Prisma ORM", icon: "layers" },
+  { name: "JWT", icon: "layers" },
+  { name: "OAuth 2.0", icon: "layers" },
+  { name: "RBAC", icon: "layers" },
+  { name: "Session Management", icon: "layers" },
+  { name: "XSS/CSRF Prevention", icon: "layers" },
 ];
 
 export const EXPERIENCE = [
@@ -227,8 +237,22 @@ export const EDUCATION = [
   {
     degree: "Bachelor of Business Administration (Computer Application)",
     institution: "Savitribai Phule Pune University",
-    location: "Maharashtra, India",
+    location: "Pune | Maharashtra",
     period: "CGPA: 8.91 / 10.0",
-    description: "Completed BBA(CA) with high academic standing, focusing on full-stack development and computer applications."
+    description: "Completed Bachelor of Business Administration (Computer Application) with high academic standing, focusing on full-stack development and computer applications."
+  },
+  {
+    degree: "HSC",
+    institution: "Maharashtra State Board",
+    location: "Pune | Maharashtra",
+    period: "Percentage: 70%",
+    description: "Completed Higher Secondary Certificate with high academic standing, focusing on full-stack development and computer applications."
+  },
+  {
+    degree: "SSC",
+    institution: "Maharashtra State Board",
+    location: "Pune | Maharashtra",
+    period: "Percentage: 58%",
+    description: "Completed Secondary School Certificate with high academic standing, focusing on full-stack development and computer applications."
   }
 ];
