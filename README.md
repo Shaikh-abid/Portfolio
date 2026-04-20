@@ -1,20 +1,22 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
-# Run and deploy your AI Studio app
-
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/dc66d29f-dd1d-4f3e-ac94-33d8e8232991
-
-## Run Locally
-
-**Prerequisites:**  Node.js
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+# 👋🏽 Abidali Shaikh | Personal Portfolio Website
+
+Welcome to the repository for my personal developer portfolio! This application serves as a central hub to showcase my professional experience, technical skill set, and production-grade full-stack projects. 
+
+Designed with a heavy emphasis on clean architecture and optimal system design, this portfolio reflects my commitment to building high-performance web applications.
+
+🔗 **Live Site:** https://portfolio-eight-tau-l4k5ryhmqi.vercel.app/
+
+## ✨ Features
+* **Modern UI/UX:** Built with React and structured for scalability.
+* **Performance Optimized:** Engineered to target a 100% Google Lighthouse performance score with optimized rendering.
+* **Direct Scheduling:** Integrated directly with **Cal.com** to allow recruiters and clients to book 1-on-1 meetings without leaving the app.
+* **Fully Responsive:** Fluid design that adapts seamlessly across mobile, tablet, and desktop environments.
+
+## 🛠️ Tech Stack
+* **Framework:** React.js (or Next.js)
+* **Language:** TypeScript / JavaScript (ES6+)
+* **Styling:** Tailwind CSS & Framer Motion 
+* **Integrations:** `@calcom/embed-react`
+* **Deployment:** Vercel
