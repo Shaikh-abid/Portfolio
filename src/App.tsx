@@ -238,7 +238,24 @@ export default function App() {
           </div>
 
           <article className="prose prose-zinc dark:prose-invert max-w-none text-portfolio-secondary font-light leading-relaxed space-y-4 whitespace-pre-wrap">
-            {selectedBlog.content}
+            {selectedBlog.content.split('\n').map((line, index, array) => {
+              if (line.includes('(sub heading)')) {
+                const parts = line.split('(sub heading)');
+                return (
+                  <span key={index}>
+                    {parts[0]}
+                    <span className="font-bold text-brand">{parts[1].trimStart()}</span>
+                    {index !== array.length - 1 && "\n"}
+                  </span>
+                );
+              }
+              return (
+                <span key={index}>
+                  {line}
+                  {index !== array.length - 1 && "\n"}
+                </span>
+              );
+            })}
           </article>
 
           <div className="pt-12 border-t border-portfolio flex justify-between items-center">

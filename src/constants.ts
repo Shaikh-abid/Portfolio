@@ -38,7 +38,7 @@ What happens when your MERN application suddenly grows from 100 users to 100,000
 
 In this article, we explore practical and production-ready strategies to scale a MERN stack application. From MongoDB optimization and Node.js backend performance to React frontend efficiency and infrastructure scaling, this guide will help you build applications that grow confidently with your users.
 
-1. Database Optimization (MongoDB)
+  (sub heading) 1. Database Optimization (MongoDB)
 
 Database performance is often the first bottleneck in growing applications.
 
@@ -48,7 +48,7 @@ Database performance is often the first bottleneck in growing applications.
 - Use sharding for very large datasets.
 - Introduce caching with Redis to reduce repeated database hits.
 
-2. Backend Scalability (Node.js and Express)
+(sub heading) 2. Backend Scalability (Node.js and Express)
 
 Node.js handles I/O operations efficiently, but CPU-heavy operations can block the event loop.
 
@@ -59,7 +59,7 @@ Node.js handles I/O operations efficiently, but CPU-heavy operations can block t
 - Use stateless authentication with JWT to allow horizontal scaling.
 - Apply rate limiting to protect APIs from abuse.
 
-3. Frontend Performance (React)
+(sub heading) 3. Frontend Performance (React)
 
 As applications grow, frontend optimization becomes critical.
 
@@ -69,7 +69,7 @@ As applications grow, frontend optimization becomes critical.
 - Use virtualization libraries for rendering large lists.
 - Serve static assets via CDN for faster global performance.
 
-4. Infrastructure and Monitoring
+(sub heading) 4. Infrastructure and Monitoring
 
 Scalability is also about infrastructure decisions.
 
@@ -78,7 +78,7 @@ Scalability is also about infrastructure decisions.
 - Enable cloud auto-scaling.
 - Monitor performance using tools such as PM2, New Relic, or MongoDB Atlas monitoring.
 
-Final Thoughts
+(sub heading) Final Thoughts
 
 Scalability is a mindset, not a feature. Every architectural decision — from database indexing to frontend rendering — affects how well your application handles growth. Build with scale in mind from day one.
 
