@@ -249,9 +249,6 @@ export default function App() {
                 <p className="text-[10px] text-portfolio-secondary uppercase tracking-widest leading-none mt-0.5">Author</p>
               </div>
             </div>
-            <button className="flex items-center gap-2 text-portfolio-secondary hover:text-portfolio-primary transition-colors text-sm cursor-pointer">
-              Share Article <UploadCloud size={16} />
-            </button>
           </div>
         </motion.div>
       );
