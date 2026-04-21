@@ -663,7 +663,7 @@ export default function App() {
                       <button
                         key={section.id}
                         onClick={() => { setActiveSection(section.id); setSelectedProjectId(null); setSelectedBlogId(null); setIsSearchOpen(false); }}
-                        className="w-full flex items-center gap-3 px-3 py-3   rounded-xl transition-colors cursor-pointer text-portfolio-primary group text-left"
+                        className="w-full flex items-center gap-3 px-3 py-3   rounded-xl hover:scale-90 duration-300 transition-all cursor-pointer text-portfolio-primary group text-left"
                       >
                         <ChevronRight size={18} className="text-portfolio-secondary group-hover:text-brand" />
                         <span className="font-medium">{section.label}</span>
