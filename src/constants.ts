@@ -168,6 +168,42 @@ export const PROJECTS = [
     githubLink: "https://github.com/Shaikh-abid/lms-repo",
   },
   {
+    id: "rewrite-ai",
+    title: "Rewrite-AI | AI Message Rewriter",
+    shortDescription:
+      "Built a fast, AI-powered message rewriting tool to improve everyday communication with multiple tones and language support.",
+    description:
+      "Rewrite-AI is a lightweight and user-friendly AI tool designed to help users rewrite their messages instantly in different tones. It focuses on real-world communication problems like writing professional replies, apologies, or casual texts more effectively. The tool generates multiple high-quality variations while preserving the original meaning, making it practical for daily use.",
+    techStack: [
+      "Next.js",
+      "React.js",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Google Gemini API",
+      "Vercel",
+    ],
+    features: [
+      "AI-powered message rewriting using Google Gemini",
+      "Supports multiple tones like Professional, Casual, Friendly, Confident, Apology, Funny, and more",
+      "Generates 3 unique variations for each input",
+      "Built-in language translation (English and Hindi)",
+      "Clean, modern UI with fast response time",
+      "No login or authentication required (instant usage)",
+    ],
+    challenges: [
+      "Ensuring consistent and structured AI responses using JSON schema",
+      "Handling edge cases where AI response formatting fails",
+      "Designing a clean and intuitive UI for non-technical users",
+    ],
+    learnings: [
+      "Learned to integrate and optimize Google Gemini API effectively",
+      "Improved prompt engineering for better tone accuracy",
+      "Enhanced frontend UI/UX skills with modern design principles",
+    ],
+    liveLink: "https://rewrite-ai-omega.vercel.app/",
+    githubLink: "https://github.com/Shaikh-abid/Rewrite-AI",
+  },
+  {
     id: "nhai-dashboard",
     title: "NHAI Data Visualization Dashboard",
     shortDescription:
@@ -264,7 +300,7 @@ export const SKILLS = [
 
 export const EXPERIENCE = [
   {
-    role: "Software Engineer Consultant",
+    role: "Software Engineer",
     company: "AlphaDeveloper's",
     period: "Feb 2026 – Present",
     tag: "Latest",
@@ -302,7 +338,7 @@ export const EDUCATION = [
     location: "Pune | Maharashtra",
     period: "Percentage: 70%",
     description:
-      "Completed Higher Secondary Certificate with high academic standing, focusing on full-stack development and computer applications.",
+      "Completed Higher Secondary education with a strong academic foundation, developing analytical and problem-solving skills along with an early interest in computer applications and technology.",
   },
   {
     degree: "SSC",
@@ -310,6 +346,6 @@ export const EDUCATION = [
     location: "Pune | Maharashtra",
     period: "Percentage: 58%",
     description:
-      "Completed Secondary School Certificate with high academic standing, focusing on full-stack development and computer applications.",
+      "Completed Secondary education with a foundational understanding of core subjects, developing discipline, problem-solving abilities, and an early interest in technology.",
   },
 ];
