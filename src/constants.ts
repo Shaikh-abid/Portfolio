@@ -210,14 +210,7 @@ export const PROJECTS = [
       "Data visualization dashboard enabling data-driven decision-making for NHAI.",
     description:
       "A specialized project for the National Highways Authority of India, focused on visualizing geographic and analytical data to assist in high-level decision-making for infrastructure development.",
-    techStack: [
-      "Next.js",
-      "D3.js",
-      "PostGIS",
-      "Node.js",
-      "Express.js",
-      "MongoDB",
-    ],
+    techStack: ["Next.js", "Mapbox-gl", "Node.js", "Express.js", "MongoDB"],
     features: [
       "Interactive geospatial map features",
       "Real-time data synchronization with government APIs",
