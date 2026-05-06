@@ -6,7 +6,7 @@ export const PROFILE = {
   email: "abidshaikhccc@gmail.com",
   phone: "+91 87673 09420",
   resumeUrl:
-    "https://drive.google.com/file/d/1sSk8yMSzIHMHOZ3inE7g6EaUNCuqMM7p/view?usp=sharing",
+    "https://drive.google.com/file/d/1oo7fMZtDB-OpiYcskceOLTl8tDgL_Ajw/view?usp=sharing",
   links: {
     linkedin: "https://www.linkedin.com/in/abidali-shaikh-2422b5259",
     github: "https://github.com/Shaikh-abid",
