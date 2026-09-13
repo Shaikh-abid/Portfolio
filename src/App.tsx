@@ -6,7 +6,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
-  Menu, X, Search, Moon, Sun, Github, ExternalLink,
+  Menu, X, Search, Moon, Sun, ExternalLink,
   Mail, ChevronRight, ChevronLeft, Music2, Clock,
   Loader2, Globe, Cpu, Layout, Terminal, Code2,
   Wind, Component, Grid, Activity, Atom, Layers,
@@ -14,7 +14,8 @@ import {
   GitBranch, Package, Volume2, ArrowLeft, Send,
   Check,
   Copy,
-  Heart
+  Heart,
+  GitGraph
 } from "lucide-react";
 import { PROFILE, SECTIONS, PROJECTS, SKILLS, EXPERIENCE, EDUCATION, BLOGS } from "./constants";
 import ContactSection from "./ContactSection";
@@ -38,7 +39,7 @@ const ICON_MAP: Record<string, any> = {
   container: Box,
   "upload-cloud": UploadCloud,
   "git-branch": GitBranch,
-  github: Github,
+  gitGraph: GitGraph,
   mail: Mail,
   package: Package,
 };
@@ -760,7 +761,7 @@ export default function App() {
               >
                 {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
               </button>
-              <a href={PROFILE.links.github} target="_blank" rel="noopener noreferrer" className="p-2 hover:text-portfolio-primary transition-colors ml-1 cursor-pointer"><Github size={16} /></a>
+              <a href={PROFILE.links.github} target="_blank" rel="noopener noreferrer" className="p-2 hover:text-portfolio-primary transition-colors ml-1 cursor-pointer"><GitGraph size={16} /></a>
             </div>
             <button
               className="md:hidden p-2 text-portfolio-primary hover:bg-secondary rounded-lg transition-colors"
