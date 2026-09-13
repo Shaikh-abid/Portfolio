@@ -300,10 +300,17 @@ export const SKILLS = [
 
 export const EXPERIENCE = [
   {
+    role: "Engineering Trainee | Cloud & DevOps",
+    company: "Softdel Systems Pvt. Ltd.",
+    period: "Augut 2026 – Present",
+    tag: "Latest",
+    description:
+      "Working with Amazon Web Services (AWS) cloud infrastructure and services. Working in Linux environments for system administration and cloud operations. Gaining hands-on experience with cloud infrastructure, deployments, and server management. Troubleshooting and monitoring cloud-based environments. Working with development and technical teams on cloud-related tasks.",
+  },
+  {
     role: "Full Stack Developer Intern",
     company: "Softdel Systems Pvt. Ltd.",
-    period: "May 2026 – Present",
-    tag: "Latest",
+    period: "May 2026 – Augut 2026",
     description:
       "Working on a cloud-based project involving AWS, Terraform, Docker, and GitHub Actions. Implementing CI/CD pipelines for automated deployments and managing infrastructure as code to ensure scalable and reliable application delivery.",
   },
